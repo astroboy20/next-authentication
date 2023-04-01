@@ -9,12 +9,16 @@ import {useSession } from "next-auth/react"
 import { Session } from 'next-auth'
 const inter = Inter({ subsets: ['latin'] })
 
-interface UserProps{
-  session:Session | null
+interface MySession {
+  user: {
+    name: string;
+    email: string;
+  }
 }
+
 export default function Home() {
   //set the session
-  const {data:session}=useSession<{session:Session | null}>()
+  const {data:session} = useSession<MySession>()
   return (
     <>
       <Head>
@@ -24,7 +28,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head> 
 
-
+        
         {session ? User({session}) : Guest()}
       
          
@@ -53,8 +57,8 @@ function User({session}){
     <main className='container mx-auto text-center py-20'> 
         <h3 className='text-4xl font-bold'>Authorize User Homepage</h3>
         <div className="details">
-          <h5></h5>
-          <h5>Unknown</h5>
+          <h5>{session.user.name}</h5>
+          <h5>{session.user.email}</h5>
         </div>
 
         <div className='flex justify-center'>

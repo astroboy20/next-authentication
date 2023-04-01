@@ -5,7 +5,8 @@ import styles from '@/styles/Home.module.css'
 import Layout from '@/layout/layout'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useSession, Session } from "next-auth/react"
+import { useSession } from "next-auth/react"
+import {Session} from 'next-auth'
 
 interface UserProps {
   session: Session

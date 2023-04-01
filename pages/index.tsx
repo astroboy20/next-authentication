@@ -4,9 +4,9 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import Layout from '@/layout/layout'
 import Link from 'next/link'
-import { useState } from 'react'
-import {getSession, useSession } from "next-auth/react"
+import {getSession, signOut, useSession } from "next-auth/react"
 import { Session } from 'next-auth'
+import { NextApiRequest, NextPageContext } from 'next'
 const inter = Inter({ subsets: ['latin'] })
 
 interface MySession {
@@ -16,9 +16,20 @@ interface MySession {
   }
 }
 
+
+interface Props {
+  session: Session | null;
+}
+
 export default function Home() {
   //set the session
   const {data:session} = useSession<any>()
+
+  //handlesign out
+  function handleSignOut(){
+    signOut()
+    console.log('i dey work olorun')
+  }
   return (
     <>
       <Head>
@@ -29,7 +40,7 @@ export default function Home() {
       </Head> 
 
         
-        {session ? User({session}) : Guest()}
+        {session ? User({session,handleSignOut}) : Guest()}
       
          
      
@@ -52,7 +63,7 @@ function Guest(){
 }
 
 //User
-function User({session}:any){
+function User({session,handleSignOut}:any){
   return(
     <main className='container mx-auto text-center py-20'> 
         <h3 className='text-4xl font-bold'>Authorize User Homepage</h3>
@@ -62,7 +73,7 @@ function User({session}:any){
         </div>
 
         <div className='flex justify-center'>
-          <button className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50'>Sign Out</button>
+          <button onClick={handleSignOut} className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50'>Sign Out</button>
         </div>
         <div className='flex justify-center'>
           <Link href={'/profile'} className='mt-5 px-10 py-1 rounded-sm text-gray-50 bg-indigo-500' >Profile Page</Link>
@@ -71,17 +82,26 @@ function User({session}:any){
   )
 }
 
+
+  
+
 //protect url
 //this session will create aan home page when there is a session else it returns to the login page 
-export async function getServerSidesProps({req}:any){
+export async function getServerSidesProps(context: NextPageContext){
   //gets the session
-  const session = await getSession({req})
+  const session = await getSession({ req:context.req })
   //if there is no session
   if(!session){
-    return{
-      redirect:{
-        destination:'/login'
+    return {
+      redirect : {
+        destination: '/login',
+        permanent: false
       }
     }
   }
+
+  return {
+    props: { session }
+  }
+
 }

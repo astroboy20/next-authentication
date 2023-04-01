@@ -7,6 +7,7 @@ import Link from 'next/link'
 import {getSession, signOut, useSession } from "next-auth/react"
 import { Session } from 'next-auth'
 import { NextApiRequest, NextPageContext } from 'next'
+import { useRouter } from 'next/router'
 const inter = Inter({ subsets: ['latin'] })
 
 interface MySession {
@@ -22,12 +23,14 @@ interface Props {
 }
 
 export default function Home() {
+  const router = useRouter()
   //set the session
   const {data:session} = useSession<any>()
 
   //handlesign out
   function handleSignOut(){
     signOut()
+    router.push('/login')
     console.log('i dey work olorun')
   }
   return (

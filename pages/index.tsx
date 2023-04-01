@@ -5,7 +5,7 @@ import styles from '@/styles/Home.module.css'
 import Layout from '@/layout/layout'
 import Link from 'next/link'
 import { useState } from 'react'
-import {useSession } from "next-auth/react"
+import {getSession, useSession } from "next-auth/react"
 import { Session } from 'next-auth'
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +18,7 @@ interface MySession {
 
 export default function Home() {
   //set the session
-  const {data:session} = useSession<MySession>()
+  const {data:session} = useSession<any>()
   return (
     <>
       <Head>
@@ -52,7 +52,7 @@ function Guest(){
 }
 
 //User
-function User({session}){
+function User({session}:any){
   return(
     <main className='container mx-auto text-center py-20'> 
         <h3 className='text-4xl font-bold'>Authorize User Homepage</h3>
@@ -69,4 +69,19 @@ function User({session}){
         </div>
       </main>
   )
+}
+
+//protect url
+//this session will create aan home page when there is a session else it returns to the login page 
+export async function getServerSidesProps({req}:any){
+  //gets the session
+  const session = await getSession({req})
+  //if there is no session
+  if(!session){
+    return{
+      redirect:{
+        destination:'/login'
+      }
+    }
+  }
 }

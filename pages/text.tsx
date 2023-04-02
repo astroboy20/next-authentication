@@ -63,5 +63,28 @@ function User({ session }: UserProps) {
         <Link href={'/profile'} className='mt-5 px-10 py-1 rounded-sm text-gray-50 bg-indigo-500' >Profile Page</Link>
       </div>
     </main>
+
+    //formik as hook 
+  
+  async function onSubmit(values:any){
+    console.log(values)
+  }
+  }
+
+  //show and hide password
+  const [show, setShow] =useState(false)
+
+  const handleShow = ()=>{
+    setShow(!show)
+  }
+  //Google sign in
+  async function handleGoogleSignIn(){
+    signIn('google',{callbackUrl:'https://localhost:3000'})
+  }
+
+  //Github sihnin
+  async function handleGithubSignIn(){
+    signIn('github',{callbackUrl:'https://localhost:3000'})
+  }
   )
 }

@@ -30,8 +30,6 @@ export default function Home() {
   //handlesign out
   function handleSignOut(){
     signOut()
-    router.push('/login')
-    console.log('i dey work olorun')
   }
   return (
     <>
@@ -90,7 +88,7 @@ function User({session,handleSignOut}:any){
 
 //protect url
 //this session will create aan home page when there is a session else it returns to the login page 
-export async function getServerSidesProps(context: NextPageContext){
+export async function getServerSideProps(context: NextPageContext){
   //gets the session
   const session = await getSession({ req:context.req })
   //if there is no session

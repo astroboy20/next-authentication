@@ -6,7 +6,27 @@ import styles from '../styles/Form.module.css'
 import Image from 'next/image'
 import { HiAtSymbol,HiFingerPrint } from "react-icons/hi";
 import {useSession,signIn,signOut} from "next-auth/react"
+import { useFormik,FormikConfig } from 'formik'
+import login_validate from '@/lib/validate'
+import { LoginProps } from '@/typing'
+
+
 const Login = () => {
+
+  //formik as hook 
+  const formik = useFormik<LoginProps>({
+    initialValues:{
+      email:"",
+      password:"",
+    },
+    validate:login_validate,
+    onSubmit
+
+  })
+  console.log(formik.errors)
+  async function onSubmit(values:LoginProps) {
+    console.log(values)
+  }
 
   //show and hide password
   const [show, setShow] =useState(false)
@@ -14,9 +34,14 @@ const Login = () => {
   const handleShow = ()=>{
     setShow(!show)
   }
-
+  //Google sign in
   async function handleGoogleSignIn(){
     signIn('google',{callbackUrl:'https://localhost:3000'})
+  }
+
+  //Github sihnin
+  async function handleGithubSignIn(){
+    signIn('github',{callbackUrl:'https://localhost:3000'})
   }
   return (
     
@@ -32,15 +57,27 @@ const Login = () => {
             <p className='w-3/4 mx-auto text-gray-400'> voluptatum, ducimus quis quas numquam nam</p>
         </div>
         {/* form */}
-        <form className='flex flex-col gap-5 text-center'>
+        <form className='flex flex-col gap-5 text-center' onSubmit={formik.handleSubmit}>
             <div className={styles.input_group}>
-                <input className={styles.input_text} type="email" name='email' placeholder='Email' />
+                <input 
+
+                  className={styles.input_text} 
+                  type="email" 
+                  placeholder='Email' 
+                  {...formik.getFieldProps("email")}/>
+
                 <span className='icon flex items-center px-3'>
                   <HiAtSymbol size={25}/>
                 </span>
             </div>
             <div className={styles.input_group}>
-                <input className={styles.input_text} type={`${show ? 'text':'password'}`} name='password' placeholder='Password' />
+                <input 
+
+                  className={styles.input_text} 
+                  type={`${show ? 'text':'password'}`} 
+                  placeholder='Password' 
+                  {...formik.getFieldProps("password")}/>
+
                 <span className='icon flex items-center px-3' onClick={handleShow}>
                   <HiFingerPrint size={25}/>
                 </span>
@@ -55,7 +92,7 @@ const Login = () => {
             </div>
 
             <div className="input-button">
-                <button type='button' className={styles.button_custom}>Sign In with Github <Image src='/images/github.svg' width={25} height={25} alt='github'/></button>
+                <button type='button' onClick={handleGithubSignIn} className={styles.button_custom}>Sign In with Github <Image src='/images/github.svg' width={25} height={25} alt='github'/></button>
             </div>
             
         </form>

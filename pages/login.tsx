@@ -6,9 +6,9 @@ import styles from '../styles/Form.module.css'
 import Image from 'next/image'
 import { HiAtSymbol,HiFingerPrint } from "react-icons/hi";
 import {useSession,signIn,signOut} from "next-auth/react"
-import { useFormik,FormikConfig } from 'formik'
-import login_validate from '@/lib/validate'
+import { useFormik } from 'formik'
 import { LoginProps } from '@/typing'
+import { login_validate } from '@/lib/validate'
 
 
 const Login = () => {
@@ -69,7 +69,9 @@ const Login = () => {
                 <span className='icon flex items-center px-3'>
                   <HiAtSymbol size={25}/>
                 </span>
+                
             </div>
+            {formik.errors.email && formik.touched.email?<span className='text-rose-500'>{formik.errors.email}</span>:<></>}
             <div className={styles.input_group}>
                 <input 
 
@@ -81,7 +83,9 @@ const Login = () => {
                 <span className='icon flex items-center px-3' onClick={handleShow}>
                   <HiFingerPrint size={25}/>
                 </span>
+                
             </div>
+            {formik.errors.password && formik.touched.password?<span className='text-rose-500'>{formik.errors.password}</span>:<></>} 
             {/* login buton */}
             <div className="input-button">
                 <button type='submit' className={styles.buttton}>Login</button>

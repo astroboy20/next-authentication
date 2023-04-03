@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { HiAtSymbol,HiFingerPrint, HiOutlineUser } from "react-icons/hi";
 import { useFormik } from 'formik'
 import {RegisterProps} from "@/typing"
+import { register_validate } from '@/lib/validate'
 
 const Register = () => {
   //show and hide password
@@ -21,7 +22,8 @@ const Register = () => {
       email:"",
       password:"",
       cpassword:""
-    },onSubmit
+    },validate:register_validate
+    ,onSubmit
   })
   async function onSubmit(values:RegisterProps){
     console.log(values)
@@ -49,6 +51,7 @@ const Register = () => {
                   <HiOutlineUser size={25}/>
                 </span>
             </div>
+            {formik.errors.username && formik.touched.username ? <span>{formik.errors.username}</span>:<></>}
             <div className={styles.input_group}>
                 <input 
                   className={styles.input_text} 
@@ -59,6 +62,7 @@ const Register = () => {
                   <HiAtSymbol size={25}/>
                 </span>
             </div>
+            {formik.errors.email && formik.touched.email ? <span>{formik.errors.email}</span>:<></>}
             <div className={styles.input_group}>
                 <input 
                   className={styles.input_text} 
@@ -69,6 +73,7 @@ const Register = () => {
                   <HiFingerPrint size={25}/>
                 </span>
             </div>
+            {formik.errors.password && formik.touched.password ? <span>{formik.errors.password}</span>:<></>}
             <div className={styles.input_group}>
                 <input 
                   className={styles.input_text} 
@@ -79,6 +84,7 @@ const Register = () => {
                   <HiFingerPrint size={25}/>
                 </span>
             </div>
+            {formik.errors.cpassword && formik.touched.cpassword ? <span>{formik.errors.cpassword}</span>:<></>}
             {/* login buton */}
             <div className="input-button">
                 <button type='submit' className={styles.buttton}>Sign Up</button>

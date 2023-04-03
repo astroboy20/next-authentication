@@ -40,7 +40,7 @@ const Register = () => {
         </div>
         {/* form */}
         <form className='flex flex-col gap-5 text-center' onSubmit={formik.handleSubmit}>
-            <div className={styles.input_group}>
+          <div className={`${styles.input_group} ${formik.errors.username && formik.touched.username ? 'border-rose-600' : ''}`}>
                 <input 
                   className={styles.input_text} 
                   type="text" 
@@ -51,8 +51,8 @@ const Register = () => {
                   <HiOutlineUser size={25}/>
                 </span>
             </div>
-            {formik.errors.username && formik.touched.username ? <span>{formik.errors.username}</span>:<></>}
-            <div className={styles.input_group}>
+            {/* {formik.errors.username && formik.touched.username ? <span>{formik.errors.username}</span>:<></>} */}
+            <div className={`${styles.input_group} ${formik.errors.email && formik.touched.email ? 'border-rose-600' : ''}`}>
                 <input 
                   className={styles.input_text} 
                   type="email" 
@@ -62,8 +62,8 @@ const Register = () => {
                   <HiAtSymbol size={25}/>
                 </span>
             </div>
-            {formik.errors.email && formik.touched.email ? <span>{formik.errors.email}</span>:<></>}
-            <div className={styles.input_group}>
+            {/* {formik.errors.email && formik.touched.email ? <span>{formik.errors.email}</span>:<></>} */}
+            <div className={`${styles.input_group} ${formik.errors.password && formik.touched.password ? 'border-rose-600' : ''}`}>
                 <input 
                   className={styles.input_text} 
                   type={`${show.password ? 'text':'password'}`}
@@ -73,8 +73,8 @@ const Register = () => {
                   <HiFingerPrint size={25}/>
                 </span>
             </div>
-            {formik.errors.password && formik.touched.password ? <span>{formik.errors.password}</span>:<></>}
-            <div className={styles.input_group}>
+            {/* {formik.errors.password && formik.touched.password ? <span>{formik.errors.password}</span>:<></>} */}
+            <div className={`${styles.input_group} ${formik.errors.cpassword && formik.touched.cpassword ? 'border-rose-600' : ''}`}>
                 <input 
                   className={styles.input_text} 
                   type={`${show.cpassword ? 'text':'password'}`} 
@@ -84,7 +84,7 @@ const Register = () => {
                   <HiFingerPrint size={25}/>
                 </span>
             </div>
-            {formik.errors.cpassword && formik.touched.cpassword ? <span>{formik.errors.cpassword}</span>:<></>}
+            {/* {formik.errors.cpassword && formik.touched.cpassword ? <span>{formik.errors.cpassword}</span>:<></>} */}
             {/* login buton */}
             <div className="input-button">
                 <button type='submit' className={styles.buttton}>Sign Up</button>
